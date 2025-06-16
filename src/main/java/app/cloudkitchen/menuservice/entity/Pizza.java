@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
-@Document(collation = "pizzas")
+@Document(collection = "pizzas")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

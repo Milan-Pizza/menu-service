@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
-@Document(collation = "toppings")
+@Document(collection = "toppings")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

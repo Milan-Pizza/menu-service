@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import java.math.BigDecimal;
 
 @EqualsAndHashCode(callSuper = true)
-@Document(collation = "pizza_sizes")
+@Document(collection = "pizza_sizes")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

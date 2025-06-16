@@ -2,26 +2,37 @@ server:
   port: 8081
 
 spring:
-    application:
-        name: menu-service
-    config:
-        import: "optional:configserver:"
-    cloud:
-        consul:
-            host: localhost
-            port: 8500
-            discovery:
-                enabled: true
-                register: true
-                prefer-ip-address: true
-                health-check-path: /actuator/health
-                health-check-interval: 10s
+  application:
+    name: menu-service
+  config:
+    import: "optional:configserver:"
+  data:
+    mongodb:
+      uri: mongodb://devuser:devpassword@localhost:27017/menuservice_db?authSource=admin
+#        mongodb:
+#            host: localhost
+#            port: 27017
+#            database: menuservice_db
+#            username: devuser
+#            password: devpassword
+#            authentication-database: admin
+
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        enabled: true
+        register: true
+        prefer-ip-address: true
+        health-check-path: /actuator/health
+        health-check-interval: 10s
 
 management:
-    endpoints:
-        web:
-            exposure:
-                include: "*"
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 
 logging:
   level:
