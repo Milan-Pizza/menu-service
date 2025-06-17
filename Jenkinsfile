@@ -22,7 +22,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the project...'
-                bat './mvnw clean install -Dmaven.test.skip=true'
+                bat './mvnw clean install package -Dmaven.test.skip=true'
             }
         }
 
@@ -33,15 +33,16 @@ pipeline {
         //     }
         // }
 
-        stage('Package') {
-            steps {
-                echo 'Packaging application...'
-                bat './mvnw package -DskipTests'
-            }
-        }
+//         stage('Package') {
+//             steps {
+//                 echo 'Packaging application...'
+//                 bat './mvnw package -DskipTests'
+//             }
+//         }
 
         stage('Docker Build and Push') {
             steps {
+                echo ${env.APP_NAME}
                 echo 'Building Docker image...'
                 bat 'docker build -t ${env.APP_NAME}:latest .'
                 echo 'Pushing Docker image to GitHub Container Registry...'
