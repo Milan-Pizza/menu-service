@@ -42,7 +42,7 @@ pipeline {
 
         stage('Docker Build and Push') {
             steps {
-                echo "${env.APP_NAME}"
+                echo "App name: ${env.APP_NAME}"
                 echo "Building Docker image..."
                 bat "docker build -t ${env.APP_NAME}:latest ."
                 echo 'Logging in to GitHub Container Registry...'
