@@ -42,12 +42,12 @@ pipeline {
 
         stage('Docker Build and Push') {
             steps {
-                echo ${env.APP_NAME}
+                echo "${env.APP_NAME}"
                 echo 'Building Docker image...'
-                bat 'docker build -t ${env.APP_NAME}:latest .'
+                bat "docker build -t ${env.APP_NAME}:latest ."
                 echo 'Pushing Docker image to GitHub Container Registry...'
-                bat 'docker tag ${env.APP_NAME}:latest ghcr.io/Milan-Pizza/${env.APP_NAME}:latest'
-                bat 'docker push ghcr.io/Milan-Pizza/${env.APP_NAME}:latest'
+                bat "docker tag ${env.APP_NAME}:latest ghcr.io/Milan-Pizza/${env.APP_NAME}:latest"
+                bat "docker push ghcr.io/Milan-Pizza/${env.APP_NAME}:latest"
             }
         }
 
