@@ -46,8 +46,8 @@ pipeline {
                 echo "Building Docker image..."
                 bat "docker build -t ${env.APP_NAME}:latest ."
                 echo 'Logging in to GitHub Container Registry...'
-                withCredentials([string(credentialsId: 'github-credentials', variable: 'GITHUB_TOKEN')]) {
-                    bat 'echo %GITHUB_TOKEN% | docker login ghcr.io -u YOUR_GITHUB_USERNAME --password-stdin'
+                withCredentials([usernamePassword(credentialsId: 'github-credentials', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_TOKEN')]) {
+                    bat 'echo %GITHUB_TOKEN% | docker login ghcr.io -u %GITHUB_USER% --password-stdin'
                 }
                 echo 'Pushing Docker image to GitHub Container Registry...'
                 bat "docker tag ${env.APP_NAME}:latest ghcr.io/milan-pizza/${env.APP_NAME}:latest"
