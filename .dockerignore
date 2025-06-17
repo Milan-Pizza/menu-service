@@ -1,0 +1,12 @@
+**/.git
+**/.gitignore
+#**/target
+**/bin
+**/.idea
+**/*.iml
+**/docker-compose*
+**/Dockerfile*
+**/README.md
+**/LICENSE
+**/*.log
+**/*.md
