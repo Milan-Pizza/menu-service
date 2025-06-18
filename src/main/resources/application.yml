@@ -5,7 +5,8 @@ spring:
   application:
     name: menu-service
   config:
-    import: "optional:configserver:http://config-server-app:8888"
+    import: "configserver:http://config-server-app:8888"
+    fast-fail-on-not-found: true
 
 #  data:
 #    mongodb:
