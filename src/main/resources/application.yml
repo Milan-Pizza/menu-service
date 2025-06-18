@@ -19,7 +19,7 @@ spring:
 
   cloud:
     consul:
-      host: infra/consul-1
+      host: infra-consul-1
       port: 8500
       discovery:
         enabled: true
