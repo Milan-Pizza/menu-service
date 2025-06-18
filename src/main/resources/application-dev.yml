@@ -1,8 +1,7 @@
 spring:
-  config:
-    data:
-      mongodb:
-        uri: mongodb://devuser:devpassword@localhost:27017/menuservice_db?authSource=admin
+  data:
+    mongodb:
+      uri: mongodb://devuser:devpassword@localhost:27017/menuservice_db?authSource=admin
 
   cloud:
     consul:
