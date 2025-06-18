@@ -5,9 +5,8 @@ spring:
   application:
     name: menu-service
   config:
-    import: "optional:configserver:"
-    host: config-server-app
-    port: 8888
+    import: "optional:configserver:http://config-server-app:8888"
+
 #  data:
 #    mongodb:
 #      uri: mongodb://devuser:devpassword@localhost:27017/menuservice_db?authSource=admin
