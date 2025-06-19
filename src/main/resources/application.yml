@@ -6,7 +6,7 @@ spring:
     name: menu-service
   config:
     import: "configserver:http://config-server-app:8888"
-    fast-fail-on-not-found: true
+    fail-fast: true
 
 #  data:
 #    mongodb:
@@ -35,6 +35,7 @@ management:
     web:
       exposure:
         include: "*"
+
 
 logging:
   level:
