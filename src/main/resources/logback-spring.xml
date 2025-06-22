@@ -1,0 +1,47 @@
+<configuration>
+
+    <!-- Define spring application name -->
+    <springProperty scope="context" name="springAppName" source="spring.application.name" defaultValue="my-app" />
+
+    <!-- Define instance ID from environment (e.g., container hostname) -->
+    <springProperty scope="context" name="instanceId" source="HOSTNAME" defaultValue="unknown-instance" />
+
+    <!-- Define spring profile, default to 'dev' if not set -->
+    <springProperty scope="context" name="springProfile" source="spring.profiles.active" defaultValue="dev" />
+
+    <appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <fieldName>timestamp</fieldName>
+                </timestamp>
+
+                <loggerName />
+                <threadName />
+                <logLevel />
+
+                <mdc>
+                    <includeMdcKeyName>traceId:-</includeMdcKeyName>
+                    <includeMdcKeyName>spanId:-</includeMdcKeyName>
+                </mdc>
+
+                <message />
+                <stackTrace />
+
+                <!-- Global metadata fields -->
+                <globalCustomFields>
+                    {
+                    "env": "prod",
+                    "service": "${springAppName}",
+                    "instance": "${instanceId}"
+                    }
+                </globalCustomFields>
+            </providers>
+        </encoder>
+    </appender>
+
+    <root level="DEBUG">
+        <appender-ref ref="JSON" />
+    </root>
+
+</configuration>

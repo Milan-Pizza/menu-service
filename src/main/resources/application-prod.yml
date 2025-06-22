@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: "configserver:http://config-server-app:8888"
   data:
     mongodb:
       uri: mongodb://devuser:devpassword@infra-mongodb-1:27017/menuservice_db?authSource=admin

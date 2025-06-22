@@ -4,39 +4,26 @@ server:
 spring:
   application:
     name: menu-service
-  config:
-    import: "configserver:http://config-server-app:8888"
-    fail-fast: true
 
-#  data:
-#    mongodb:
-#      uri: mongodb://devuser:devpassword@localhost:27017/menuservice_db?authSource=admin
-##        mongodb:
-##            host: localhost
-##            port: 27017
-##            database: menuservice_db
-##            username: devuser
-##            password: devpassword
-##            authentication-database: admin
-#
-#  cloud:
-#    consul:
-#      host: infra-consul-1
-#      port: 8500
-#      discovery:
-#        enabled: true
-#        register: true
-#        prefer-ip-address: true
-#        health-check-path: /actuator/health
-#        health-check-interval: 10s
 
 management:
   endpoints:
     web:
       exposure:
         include: "*"
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0  # 100% sampling rate
+    propagation:
+      type: w3c
 
 
 logging:
   level:
     root: info
+#    io.opentelemetry: DEBUG
+#    io.opentelemetry.exporter: DEBUG
+#    io.opentelemetry.sdk.trace.export: DEBUG
+#    io.opentelemetry.exporter.otlp: DEBUG
+
