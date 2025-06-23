@@ -1,62 +1,42 @@
 package app.cloudkitchen.menuservice.controller;
 
-import app.cloudkitchen.menuservice.dto.PagedResponse;
+import app.cloudkitchen.menuservice.dto.PagedResponseDTO;
 import app.cloudkitchen.menuservice.dto.PizzaDTO;
 import app.cloudkitchen.menuservice.service.PizzaService;
-import app.cloudkitchen.menuservice.util.PaginationUtil;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/pizzas")
 @RequiredArgsConstructor
-@Validated
 public class PizzaController {
 
     private final PizzaService pizzaService;
 
+    // Pizza endpoints
     @PostMapping
-    public ResponseEntity<PizzaDTO> createPizza(@Valid @RequestBody PizzaDTO pizzaDTO) {
-        PizzaDTO createdPizza = pizzaService.createPizza(pizzaDTO);
-        return ResponseEntity.ok(createdPizza);
+    public ResponseEntity<PizzaDTO> createPizza(@RequestBody PizzaDTO pizzaDTO) {
+        return ResponseEntity.ok(pizzaService.createPizza(pizzaDTO));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PizzaDTO> getPizzaById(@PathVariable String id) {
-        return pizzaService.getPizzaById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        return ResponseEntity.ok(pizzaService.getPizzaById(id));
     }
 
     @GetMapping
-    public ResponseEntity<PagedResponse<PizzaDTO>> getAllPizzas(
-            @RequestParam(defaultValue = "0") @Min(0) int page,
-            @RequestParam(defaultValue = "10") @Min(1) @Max(100) int size,
-            @RequestParam(defaultValue = "name") String sortBy,
-            @RequestParam(defaultValue = "asc") String sortDirection) {
-
-        Sort sort = sortDirection.equalsIgnoreCase("desc") ?
-            Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
-
-        Page<PizzaDTO> pizzaPage = pizzaService.getAllPizzas(
-            PageRequest.of(page, size, sort));
-
-        return ResponseEntity.ok(PaginationUtil.fromPage(pizzaPage));
+    public ResponseEntity<PagedResponseDTO<PizzaDTO>> getAllPizzas(
+            @PageableDefault(size = 20, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
+        return ResponseEntity.ok(pizzaService.getAllPizzas(pageable));
     }
 
-
     @PutMapping("/{id}")
-    public ResponseEntity<PizzaDTO> updatePizza(@PathVariable String id, @Valid @RequestBody PizzaDTO pizzaDTO) {
-        PizzaDTO updatedPizza = pizzaService.updatePizza(id, pizzaDTO);
-        return ResponseEntity.ok(updatedPizza);
+    public ResponseEntity<PizzaDTO> updatePizza(@PathVariable String id, @RequestBody PizzaDTO pizzaDTO) {
+        return ResponseEntity.ok(pizzaService.updatePizza(id, pizzaDTO));
     }
 
     @DeleteMapping("/{id}")
@@ -64,4 +44,30 @@ public class PizzaController {
         pizzaService.deletePizza(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/category/{category}")
+    public ResponseEntity<PagedResponseDTO<PizzaDTO>> getPizzasByCategory(
+            @PathVariable String category,
+            @PageableDefault(size = 10) Pageable pageable) {
+        return ResponseEntity.ok(pizzaService.getPizzasByCategory(category, pageable));
+    }
+
+    @GetMapping("/vegetarian")
+    public ResponseEntity<PagedResponseDTO<PizzaDTO>> getVegetarianPizzas(
+            @PageableDefault(size = 15) Pageable pageable) {
+        return ResponseEntity.ok(pizzaService.getVegetarianPizzas(pageable));
+    }
+
+    @GetMapping("/vegan")
+    public ResponseEntity<PagedResponseDTO<PizzaDTO>> getVeganPizzas(
+            @PageableDefault(size = 15) Pageable pageable) {
+        return ResponseEntity.ok(pizzaService.getVeganPizzas(pageable));
+    }
+
+    @GetMapping("/active")
+    public ResponseEntity<PagedResponseDTO<PizzaDTO>> getActivePizzas(
+            @PageableDefault(size = 20) Pageable pageable) {
+        return ResponseEntity.ok(pizzaService.getActivePizzas(pageable));
+    }
+
 }
