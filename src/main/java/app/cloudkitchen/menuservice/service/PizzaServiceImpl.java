@@ -5,6 +5,8 @@ import app.cloudkitchen.menuservice.entity.Pizza;
 import app.cloudkitchen.menuservice.entity.PizzaSize;
 import app.cloudkitchen.menuservice.repository.PizzaRepository;
 import app.cloudkitchen.menuservice.repository.PizzaSizeRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,10 +38,9 @@ public class PizzaServiceImpl implements PizzaService {
     }
 
     @Override
-    public List<PizzaDTO> getAllPizzas() {
-        return pizzaRepository.findAll().stream()
-                .map(PizzaDTO::fromEntity)
-                .toList();
+    public Page<PizzaDTO> getAllPizzas(Pageable pageable) {
+        return pizzaRepository.findAll(pageable)
+                .map(PizzaDTO::fromEntity);
     }
 
     @Override
